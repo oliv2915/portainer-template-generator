@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
+const bcrypt = require("bcrypt");
 
 const User = db.define("user", {
 	uuid: {
@@ -71,6 +72,9 @@ const User = db.define("user", {
 			notNull: {
 				msg: "Password can not be empty",
 			},
+		},
+		set(password) {
+			this.setDataValue("password", bcrypt.hashSync(password, 13));
 		},
 	},
 });
